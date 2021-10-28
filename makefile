@@ -28,15 +28,9 @@ clean:
 	cd blink1 && make clean
 
 run: copy
-	cd $(HOME) ; mpirun -f ~/pi_mpihostsfile -n 9 ~/sph.out ; cd $(HOME)/SPH
+	cd $(HOME) ; mpirun -hostname ~/pi_mpihostsfile -n 2 ~/sph.out ; cd $(HOME)/SPH
 
 copy:
 	scp ./bin/sph.out pi1:~/
 	scp ./bin/sph.out pi2:~/
-	scp ./bin/sph.out pi3:~/
-	scp ./bin/sph.out pi4:~/
-	scp ./bin/sph.out pi5:~/
-	scp ./bin/sph.out pi6:~/
-	scp ./bin/sph.out pi7:~/
-	scp ./bin/sph.out pi8:~/
-	scp ./bin/sph.out pi9:~/
+	#Posteriormente hace un bucle con n (numero de raspberries)
