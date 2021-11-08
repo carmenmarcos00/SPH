@@ -1,5 +1,9 @@
 CC=mpicc
 
+echo "Introduce number of pi's configured:"
+read npis
+
+
 LDFLAGS+=-L$(SDKSTAGE)/opt/vc/lib/ -lGLESv2 -lGLEW -lEGL -lopenmaxil -lbcm_host -lvcos -lvchiq_arm -lpthread -lrt -L../libs/ilclient -L../libs/vgfont -lfreetype
 INCLUDES+=-I$(SDKSTAGE)/opt/vc/include/ -I$(SDKSTAGE)/opt/vc/include/interface/vcos/pthreads -I$(SDKSTAGE)/opt/vc/include/interface/vmcs_host/linux -I./ -I../libs/ilclient -I../libs/vgfont -I/usr/include/freetype2 -I./blink1
 CFLAGS= -DRASPI -mfloat-abi=hard -mfpu=vfp -O3 -lm -ffast-math -g
@@ -28,9 +32,9 @@ clean:
 	cd blink1 && make clean
 
 run: copy
-	cd $(HOME) ; mpirun -hostname ~/pi_mpihostsfile -n 2 ~/sph.out ; cd $(HOME)/SPH
+	cd $(HOME) ; mpirun -hostname ~/pi_mpihostsfile -n $(npis) ~/sph.out ; cd $(HOME)/SPH
 
 copy:
-	scp ./bin/sph.out pi1:~/
-	scp ./bin/sph.out pi2:~/
-	#Posteriormente hace un bucle con n (numero de raspberries)
+	for i in $(npis); do
+  		scp ./bin/sph.out pi$(i):~/
+	done
